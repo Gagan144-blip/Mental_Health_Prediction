@@ -2,7 +2,7 @@ import type { FieldErrors, PredictionResponse, StudentData } from "@/types/predi
 import { FIELD_ORDER } from "@/lib/validation";
 
 // The one place the backend URL is read. Set NEXT_PUBLIC_API_URL in .env.local.
-const API_URL = (process.env.NEXT_PUBLIC_API_URL ?? "https://mental-health-prediction-4xue.onrender.com").replace(/\/+$/, "");
+const API_URL = (process.env.NEXT_PUBLIC_API_URL ?? "https://mental-health-prediction2.onrender.com").replace(/\/+$/, "");
 const TIMEOUT_MS = 30_000;
 
 export type ApiErrorKind = "network" | "validation" | "server";
