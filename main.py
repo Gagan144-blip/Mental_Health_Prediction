@@ -2,28 +2,37 @@ import joblib
 from fastapi import FastAPI
 from pydantic import BaseModel, Field
 import pandas as pd
+from typing import Literal
+from fastapi.middleware.cors import CORSMiddleware
 model = joblib.load('Mental_health_model.pkl')
 
 
 app = FastAPI()
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 # a first pydantic model
 class StudentData(BaseModel):
     age               : int = Field(..., ge=10, le=100)
-    gender            : Literal['Male', 'Female', 'Other']  # type: ignore
+    gender            : Literal['Male', 'Female', 'Other'] 
     country           : str
-    academic_level    : Literal['Undergraduate', 'Graduate', 'High School'] # type: ignore
-    most_used_platform:Literal['Facebook', 'LinkedIn', 'Instagram', 'Snapchat', 'Twitter',  # type: ignore
-       'YouTube', 'TikTok', 'LINE', 'KakaoTalk', 'VKontakte', 'WhatsApp',  # type: ignore
-       'WeChat']  # type: ignore
-    purpose_of_use    : Literal['Networking', 'Education', 'Entertainment', 'News']  # type: ignore
-    avg_daily_usage_hours: float = Field(..., ge=6 , le=24)
+    academic_level    : Literal['Undergraduate', 'Graduate', 'High School'] 
+    most_used_platform:Literal['Facebook', 'LinkedIn', 'Instagram', 'Snapchat', 'Twitter',
+       'YouTube', 'TikTok', 'LINE', 'KakaoTalk', 'VKontakte', 'WhatsApp', 
+       'WeChat']  
+    purpose_of_use    : Literal['Networking', 'Education', 'Entertainment', 'News'] 
+    avg_daily_usage_hours: float = Field(..., ge=0 , le=24)
     daily_unlocks       : int = Field(..., ge=0)
     study_hours         : float = Field(..., ge=0, le=24)
     physical_activity_hours: float = Field(..., ge=0, le=2)
     sleep_hours_per_night: float = Field(..., ge=0, le=24)
-    stress_level         : Literal['Medium', 'Low', 'Very High', 'High']  # type: ignore
+    stress_level         : Literal['Medium', 'Low', 'Very High', 'High']  
 
 
 
@@ -70,4 +79,4 @@ def predict(data: StudentData):
 
 
    prediction = model.predict(input_row)[0]
-   return PredictionResponse(predicted_mental_health_score=prediction)
+   return PredictionResponse(predicted_mental_health_score=round(float(prediction), 2))
