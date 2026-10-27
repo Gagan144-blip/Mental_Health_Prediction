@@ -1,17 +1,22 @@
 import type { Metadata, Viewport } from "next";
-import { Bricolage_Grotesque, Figtree } from "next/font/google";
+import { Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 
-const display = Bricolage_Grotesque({ subsets: ["latin"], variable: "--font-display" });
-const body = Figtree({ subsets: ["latin"], variable: "--font-body" });
+const display = Space_Grotesk({ subsets: ["latin"], variable: "--font-display", weight: ["400","500","600","700"] });
+const body    = Inter({ subsets: ["latin"], variable: "--font-body" });
 
 export const metadata: Metadata = {
-  title: "Mental Health Prediction",
+  title: "Mental Health AI — Prediction Tool",
   description:
-    "An educational machine learning project that predicts a mental health score from lifestyle and social media habits.",
+    "An AI-powered educational tool that predicts a mental health score from your lifestyle and social media habits using machine learning.",
+  keywords: ["mental health", "machine learning", "prediction", "social media", "wellness", "AI"],
 };
 
-export const viewport: Viewport = { width: "device-width", initialScale: 1, themeColor: "#17636B" };
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#070A13",
+};
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (

@@ -9,7 +9,7 @@ export default function Home() {
     <>
       <a
         href="#assessment"
-        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-white focus:px-4 focus:py-2"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:border focus:border-accent/40 focus:bg-surface focus:px-4 focus:py-2 focus:text-accent focus:shadow-glow-sm"
       >
         Skip to assessment
       </a>

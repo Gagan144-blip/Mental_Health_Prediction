@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { ChevronDown, Search } from "lucide-react";
+import { ChevronDown, Search, Check } from "lucide-react";
 import { COUNTRIES } from "@/lib/countries";
 
 interface Props {
@@ -15,11 +15,11 @@ interface Props {
 
 /** Searchable combobox following the ARIA 1.2 list-autocomplete pattern. */
 export default function CountrySelect({ id, value, onChange, onBlur, invalid, describedBy }: Props) {
-  const [query, setQuery] = useState(value ?? "");
-  const [open, setOpen] = useState(false);
+  const [query,  setQuery]  = useState(value ?? "");
+  const [open,   setOpen]   = useState(false);
   const [active, setActive] = useState(0);
   const listRef = useRef<HTMLUListElement>(null);
-  const listId = `${id}-list`;
+  const listId  = `${id}-list`;
 
   useEffect(() => setQuery(value ?? ""), [value]);
 
@@ -58,7 +58,7 @@ export default function CountrySelect({ id, value, onChange, onBlur, invalid, de
 
   return (
     <div className="relative">
-      <Search aria-hidden className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-soft" />
+      <Search aria-hidden className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-prose-soft" />
       <input
         id={id}
         role="combobox"
@@ -76,20 +76,27 @@ export default function CountrySelect({ id, value, onChange, onBlur, invalid, de
         onChange={(e) => { setQuery(e.target.value); setActive(0); setOpen(true); }}
         onKeyDown={onKeyDown}
         onBlur={() => { setOpen(false); setQuery(value ?? ""); onBlur?.(); }}
-        className={`h-12 w-full rounded-xl border-2 bg-white pl-10 pr-10 text-base transition-colors placeholder:text-ink-soft/70 ${
-          invalid ? "border-red-600" : "border-line hover:border-tide/60"
+        className={`h-12 w-full rounded-xl border-2 bg-surface-hi pl-10 pr-10 text-base text-prose-bright transition-all duration-200 placeholder:text-prose-soft/50 ${
+          invalid
+            ? "border-danger"
+            : "border-border hover:border-border-hi focus:border-accent focus:shadow-glow-sm focus:outline-none"
         }`}
       />
-      <ChevronDown aria-hidden className="pointer-events-none absolute right-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-soft" />
+      <ChevronDown
+        aria-hidden
+        className={`pointer-events-none absolute right-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-prose-soft transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+      />
       {open && (
         <ul
           ref={listRef}
           id={listId}
           role="listbox"
           aria-label="Countries"
-          className="absolute z-30 mt-1.5 max-h-60 w-full overflow-y-auto rounded-xl border border-line bg-white py-1 shadow-card"
+          className="absolute z-30 mt-1.5 max-h-60 w-full overflow-y-auto rounded-xl border border-border bg-surface py-1 shadow-[0_8px_32px_rgba(0,0,0,.7)]"
         >
-          {filtered.length === 0 && <li className="px-4 py-3 text-sm text-ink-soft">No matching country</li>}
+          {filtered.length === 0 && (
+            <li className="px-4 py-3 text-sm text-prose-soft">No matching country</li>
+          )}
           {filtered.map((c, i) => (
             <li
               key={c}
@@ -98,11 +105,12 @@ export default function CountrySelect({ id, value, onChange, onBlur, invalid, de
               aria-selected={c === value}
               onMouseDown={(e) => { e.preventDefault(); select(c); }}
               onMouseEnter={() => setActive(i)}
-              className={`cursor-pointer px-4 py-2.5 text-[0.95rem] ${
-                i === active ? "bg-tide-light" : ""
-              } ${c === value ? "font-semibold text-tide-dark" : ""}`}
+              className={`flex cursor-pointer items-center justify-between px-4 py-2.5 text-[0.95rem] transition-colors duration-100 ${
+                i === active ? "bg-accent/10 text-accent" : "text-prose"
+              } ${c === value ? "font-semibold text-accent" : ""}`}
             >
               {c}
+              {c === value && <Check aria-hidden className="h-4 w-4 text-accent" />}
             </li>
           ))}
         </ul>

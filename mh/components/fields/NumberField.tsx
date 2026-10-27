@@ -51,8 +51,10 @@ export default function NumberField({
         const n = raw === "" ? null : Number(raw);
         onChange(n === null || Number.isNaN(n) ? null : n);
       }}
-      className={`h-11 rounded-lg border bg-white px-3 text-right text-base font-semibold tabular-nums text-ink transition-colors placeholder:text-ink-soft/60 ${
-        invalid ? "border-red-600" : "border-line hover:border-tide/60"
+      className={`h-11 rounded-lg border bg-surface-hi px-3 text-right text-base font-semibold tabular-nums text-prose-bright transition-all duration-200 placeholder:text-prose-soft/40 ${
+        invalid
+          ? "border-danger shadow-[0_0_0_1px_rgba(248,113,113,0.3)]"
+          : "border-border hover:border-border-hi focus:border-accent focus:shadow-glow-sm focus:outline-none"
       } ${className}`}
     />
   );
